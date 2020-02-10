@@ -1,0 +1,10 @@
+{
+  "name": "react--bp",
+  "version": "1.0.0",
+  "description": "Full config for react application",
+  "main": "index.js",
+  "repository": "https://github.com/Megoos/react--bp",
+  "author": "Mikhail Guskov <meguskov@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
