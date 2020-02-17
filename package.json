@@ -8,8 +8,8 @@
   "license": "MIT",
   "scripts": {
     "check-types": "tsc",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --color --progress",
-    "build": "cross-env NODE_ENV=production webpack --color --progress",
+    "dev": "webpack-dev-server --config webpack/webpack.config.dev.js --color --progress",
+    "build": "webpack --config webpack/webpack.config.prod.js --color --progress",
     "start": "serve build"
   },
   "dependencies": {
@@ -21,17 +21,26 @@
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
+    "@hot-loader/react-dom": "^16.11.0",
     "@types/node": "^13.7.0",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "babel-loader": "^8.0.6",
     "cross-env": "^7.0.0",
+    "css-loader": "^3.4.2",
     "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.1",
+    "react-hot-loader": "^4.12.19",
+    "sass-loader": "^8.0.2",
     "serve": "^11.3.0",
+    "style-loader": "^1.1.3",
     "terser-webpack-plugin": "^2.3.4",
     "typescript": "^3.7.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   }
 }
