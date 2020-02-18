@@ -21,6 +21,42 @@ module.exports = merge(commonConfig, {
     overlay: true
   },
   devtool: 'cheap-module-eval-source-map', // +++++
+  module: {
+    rules: [
+      {
+        test: /(\.css|\.scss|\.sass)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                mode: 'local',
+                localIdentName: '[name]_[local]__[hash:base64:5]'
+              },
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [require('autoprefixer')],
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: [paths.appSrc]
+              },
+              sourceMap: true
+            }
+          }
+        ]
+      }
+    ]
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // enable HMR globally
     new webpack.NamedModulesPlugin() // prints more readable module names in the browser console on HMR updates
