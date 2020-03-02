@@ -1,7 +1,104 @@
 // shared config (dev and prod)
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
+const WebpackBar = require('webpackbar');
+const webpack = require('webpack');
 const paths = require('./paths');
+
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = !isDev;
+
+const optimization = () => {
+  const config = {
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all'
+    }
+  };
+
+  if (isProd) {
+    config.minimizer = [new TerserWebpackPlugin()];
+  }
+
+  return config;
+};
+
+const plugins = () => {
+  const base = [
+    new CleanWebpackPlugin(),
+    new WebpackBar(),
+    new HtmlWebpackPlugin({
+      template: paths.appHtml,
+      favicon: `${paths.appSrc}/favicon.ico`,
+      minify: {
+        collapseWhitespace: isProd,
+        removeComments: isProd
+      }
+    })
+  ];
+
+  if (isDev) {
+    const dev = [
+      ...base,
+      new webpack.HotModuleReplacementPlugin(), // enable HMR globally
+      new webpack.NamedModulesPlugin() // prints more readable module names in the browser console on HMR updates
+    ];
+
+    return dev;
+  }
+
+  if (isProd) {
+    const prod = [
+      ...base,
+      new MiniCssExtractPlugin({
+        filename: `css/[name].[contenthash:8].css`,
+        chunkFilename: `css/chunk/[id].[contenthash:8].css`,
+        ignoreOrder: true // Enable to remove warnings about conflicting order
+      })
+    ];
+
+    return prod;
+  }
+
+  return base;
+};
+
+const cssLoader = () => {
+  const loaders = [
+    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        modules: {
+          mode: 'local',
+          localIdentName: '[name]_[local]__[hash:base64:5]'
+        },
+        sourceMap: isDev
+      }
+    },
+    {
+      loader: 'postcss-loader',
+      options: {
+        plugins: [autoprefixer],
+        sourceMap: isDev
+      }
+    },
+    {
+      loader: 'sass-loader',
+      options: {
+        sassOptions: {
+          includePaths: [paths.appSrc]
+        },
+        sourceMap: isDev
+      }
+    }
+  ];
+
+  return loaders;
+};
 
 module.exports = {
   resolve: {
@@ -14,30 +111,20 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: ['babel-loader', 'source-map-loader'],
-        exclude: /node_modules/
+        test: /\.(js(x?)|ts(x?))$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
       },
       {
-        test: /\.tsx?$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
+        test: /\.(css|scss)$/,
+        exclude: /node_modules/,
+        use: cssLoader()
       }
     ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: paths.appHtml,
-      favicon: `${paths.appSrc}/favicon.ico`
-    })
-  ],
+  plugins: plugins(),
   performance: {
-    hints: false // +++++
+    hints: false
   },
-  optimization: {
-    runtimeChunk: true,
-    splitChunks: {
-      chunks: 'all'
-    }
-  }
+  optimization: optimization()
 };
