@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const WebpackBar = require('webpackbar');
 const webpack = require('webpack');
@@ -32,11 +33,17 @@ const plugins = () => {
     new WebpackBar(),
     new HtmlWebpackPlugin({
       template: paths.appHtml,
-      favicon: `${paths.appSrc}/favicon.ico`,
+      favicon: `${paths.appPublic}/favicon.ico`,
       minify: {
         collapseWhitespace: isProd,
         removeComments: isProd
       }
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      tsconfig: paths.appTsConfig,
+      async: isDev,
+      checkSyntacticErrors: true,
+      useTypescriptIncrementalApi: true
     })
   ];
 
@@ -111,14 +118,21 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js(x?)|ts(x?))$/,
+        test: /\.(js(x?)|ts(x?))$/i,
         exclude: /node_modules/,
         use: 'babel-loader'
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.(css|scss)$/i,
         exclude: /node_modules/,
         use: cssLoader()
+      },
+      {
+        test: /\.(png|jpe?g|svg|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          outputPath: 'images'
+        }
       }
     ]
   },

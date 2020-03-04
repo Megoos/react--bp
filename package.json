@@ -8,8 +8,8 @@
   "license": "MIT",
   "scripts": {
     "check-types": "tsc",
-    "dev": "webpack-dev-server --config webpack/webpack.config.dev.js --color --progress",
-    "build": "webpack --config webpack/webpack.config.prod.js --color --progress",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack/webpack.config.dev.js --color --progress",
+    "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.prod.js --color --progress",
     "start": "serve build"
   },
   "dependencies": {
@@ -28,8 +28,10 @@
     "autoprefixer": "^9.7.4",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
-    "cross-env": "^7.0.0",
+    "cross-env": "^7.0.1",
     "css-loader": "^3.4.2",
+    "file-loader": "^5.1.0",
+    "fork-ts-checker-webpack-plugin": "^4.0.5",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
