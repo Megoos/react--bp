@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const WebpackBar = require('webpackbar');
 const webpack = require('webpack');
@@ -50,6 +51,7 @@ const plugins = () => {
   if (isDev) {
     const dev = [
       ...base,
+      new HardSourceWebpackPlugin(),
       new webpack.HotModuleReplacementPlugin(), // enable HMR globally
       new webpack.NamedModulesPlugin() // prints more readable module names in the browser console on HMR updates
     ];
@@ -129,6 +131,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|svg|gif)$/i,
+        exclude: /node_modules/,
         loader: 'file-loader',
         options: {
           outputPath: 'images'

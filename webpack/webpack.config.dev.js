@@ -20,5 +20,5 @@ module.exports = merge(commonConfig, {
     stats: 'errors-only',
     overlay: true
   },
-  devtool: 'cheap-module-eval-source-map'
+  devtool: 'eval-cheap-module-source-map'
 });
