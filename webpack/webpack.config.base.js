@@ -122,20 +122,25 @@ module.exports = {
       {
         test: /\.(js(x?)|ts(x?))$/i,
         exclude: /node_modules/,
-        use: 'babel-loader'
+        use: ['babel-loader', 'thread-loader']
       },
       {
         test: /\.(css|scss)$/i,
         exclude: /node_modules/,
-        use: cssLoader()
+        use: [...cssLoader(), 'thread-loader']
       },
       {
         test: /\.(png|jpe?g|svg|gif)$/i,
         exclude: /node_modules/,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'images'
-        }
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images'
+            }
+          },
+          'thread-loader'
+        ]
       }
     ]
   },
