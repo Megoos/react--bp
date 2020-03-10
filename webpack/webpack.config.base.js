@@ -5,6 +5,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 const autoprefixer = require('autoprefixer');
 const WebpackBar = require('webpackbar');
 const webpack = require('webpack');
@@ -32,6 +33,7 @@ const plugins = () => {
   const base = [
     new CleanWebpackPlugin(),
     new WebpackBar(),
+    new Dotenv({ systemvars: true }),
     new HtmlWebpackPlugin({
       template: paths.appHtml,
       favicon: `${paths.appPublic}/favicon.ico`,
