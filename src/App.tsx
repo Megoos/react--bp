@@ -7,7 +7,8 @@ function App() {
   return (
     <div>
       <Header />
-      <h1>Hello World!</h1> <p>React++</p>
+      <h1>Hello World!</h1>
+      <p>React++</p>
     </div>
   );
 }
