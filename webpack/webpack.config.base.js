@@ -18,8 +18,8 @@ const optimization = () => {
   const config = {
     runtimeChunk: true,
     splitChunks: {
-      chunks: 'all'
-    }
+      chunks: 'all',
+    },
   };
 
   if (isProd) {
@@ -39,15 +39,15 @@ const plugins = () => {
       favicon: `${paths.appPublic}/favicon.ico`,
       minify: {
         collapseWhitespace: isProd,
-        removeComments: isProd
-      }
+        removeComments: isProd,
+      },
     }),
     new ForkTsCheckerWebpackPlugin({
       tsconfig: paths.appTsConfig,
       async: isDev,
       checkSyntacticErrors: true,
-      useTypescriptIncrementalApi: true
-    })
+      useTypescriptIncrementalApi: true,
+    }),
   ];
 
   if (isDev) {
@@ -55,7 +55,7 @@ const plugins = () => {
       ...base,
       new HardSourceWebpackPlugin(),
       new webpack.HotModuleReplacementPlugin(), // enable HMR globally
-      new webpack.NamedModulesPlugin() // prints more readable module names in the browser console on HMR updates
+      new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
     ];
 
     return dev;
@@ -67,8 +67,8 @@ const plugins = () => {
       new MiniCssExtractPlugin({
         filename: `css/[name].[contenthash:8].css`,
         chunkFilename: `css/chunk/[id].[contenthash:8].css`,
-        ignoreOrder: true // Enable to remove warnings about conflicting order
-      })
+        ignoreOrder: true, // Enable to remove warnings about conflicting order
+      }),
     ];
 
     return prod;
@@ -85,28 +85,45 @@ const cssLoader = () => {
       options: {
         modules: {
           mode: 'local',
-          localIdentName: '[name]_[local]__[hash:base64:5]'
+          localIdentName: '[name]_[local]__[hash:base64:5]',
         },
-        sourceMap: isDev
-      }
+        sourceMap: isDev,
+      },
     },
     {
       loader: 'postcss-loader',
       options: {
         plugins: [autoprefixer],
-        sourceMap: isDev
-      }
+        sourceMap: isDev,
+      },
     },
     {
       loader: 'sass-loader',
       options: {
         sassOptions: {
-          includePaths: [paths.appSrc]
+          includePaths: [paths.appSrc],
         },
-        sourceMap: isDev
-      }
-    }
+        sourceMap: isDev,
+      },
+    },
   ];
+
+  return loaders;
+};
+
+const jsLoader = () => {
+  const loaders = ['babel-loader'];
+
+  if (isDev) {
+    loaders.push({
+      loader: 'eslint-loader',
+      options: {
+        cache: true,
+        emitError: true,
+        emitWarning: true,
+      },
+    });
+  }
 
   return loaders;
 };
@@ -116,20 +133,20 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     modules: ['node_modules'],
     alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
   module: {
     rules: [
       {
         test: /\.(js(x?)|ts(x?))$/i,
         exclude: /node_modules/,
-        use: ['babel-loader', 'thread-loader']
+        use: [...jsLoader(), 'thread-loader'],
       },
       {
         test: /\.(css|scss)$/i,
         exclude: /node_modules/,
-        use: [...cssLoader(), 'thread-loader']
+        use: [...cssLoader(), 'thread-loader'],
       },
       {
         test: /\.(png|jpe?g|svg|gif)$/i,
@@ -138,17 +155,17 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'images'
-            }
+              outputPath: 'images',
+            },
           },
-          'thread-loader'
-        ]
-      }
-    ]
+          'thread-loader',
+        ],
+      },
+    ],
   },
   plugins: plugins(),
   performance: {
-    hints: false
+    hints: false,
   },
-  optimization: optimization()
+  optimization: optimization(),
 };
