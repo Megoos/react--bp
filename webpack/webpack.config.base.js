@@ -47,6 +47,10 @@ const plugins = () => {
       async: isDev,
       checkSyntacticErrors: true,
       useTypescriptIncrementalApi: true,
+      eslint: true,
+      eslintOptions: {
+        cache: true,
+      },
     }),
   ];
 
@@ -113,17 +117,6 @@ const cssLoader = () => {
 
 const jsLoader = () => {
   const loaders = ['babel-loader'];
-
-  if (isDev) {
-    loaders.push({
-      loader: 'eslint-loader',
-      options: {
-        cache: true,
-        emitError: true,
-        emitWarning: true,
-      },
-    });
-  }
 
   return loaders;
 };
