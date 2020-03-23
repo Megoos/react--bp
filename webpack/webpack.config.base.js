@@ -37,10 +37,8 @@ const plugins = () => {
     new HtmlWebpackPlugin({
       template: paths.appHtml,
       favicon: `${paths.appPublic}/favicon.ico`,
-      minify: {
-        collapseWhitespace: isProd,
-        removeComments: isProd,
-      },
+      cache: true,
+      minify: true,
     }),
     new ForkTsCheckerWebpackPlugin({
       tsconfig: paths.appTsConfig,
