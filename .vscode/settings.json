@@ -1,0 +1,19 @@
+{
+  "editor.wordWrap": "on",
+  "editor.wrappingIndent": "indent",
+  "editor.renderIndentGuides": true,
+  "editor.rulers": [120],
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true,
+    "source.fixAll.eslint": true
+  },
+  "files.associations": {
+    "[Dd]ockerfile*": "dockerfile",
+    ".stylelintrc": "json"
+  },
+  "javascript.preferences.importModuleSpecifier": "auto",
+  "typescript.preferences.importModuleSpecifier": "auto",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

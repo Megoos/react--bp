@@ -1,5 +1,14 @@
 # Конфигурация VS Code
 
+## Параметры конфигурации
+
+Основные опции:
+
+- `"*.preferences.importModuleSpecifier": "auto"` - стиль путей для автоматического импорта (абсолютный или относительный) выбирается автоматически
+- `"typescript.tsdk": "node_modules/typescript/lib"` - выбор версии typescript из node_modules
+- `"editor.formatOnSave": true` - форматировать файл при сохранении
+- `"editor.codeActionsOnSave": {"source.fixAll.tslint": true, "source.fixAll.eslint": true}` - выполнение форматирования по правилам линтера при сохранении
+
 ## Отладчик для Chrome
 
 Для отладки необходимо установите расширение `Debugger for Chrome`.
