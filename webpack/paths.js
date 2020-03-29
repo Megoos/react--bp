@@ -12,5 +12,6 @@ module.exports = {
   appIndexJs: resolveApp('src/index.tsx'), // Main entry point
   appSrc: resolveApp('src'), // App source
   appPublic: resolveApp('public'), // Public source
-  appTsConfig: resolveApp('./tsconfig.json'), // tsconfig
+  appTsConfig: resolveApp('tsconfig.json'), // tsconfig
+  appCache: resolveApp('node_modules/.cache'),
 };

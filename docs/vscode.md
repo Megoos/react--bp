@@ -9,6 +9,8 @@
 - `"editor.formatOnSave": true` - форматировать файл при сохранении
 - `"editor.codeActionsOnSave": {"source.fixAll.tslint": true, "source.fixAll.eslint": true}` - выполнение форматирования по правилам линтера при сохранении
 
+Подробнее в документации: https://code.visualstudio.com/docs/getstarted/settings
+
 ## Отладчик для Chrome
 
 Для отладки необходимо установите расширение `Debugger for Chrome`.

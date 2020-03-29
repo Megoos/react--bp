@@ -1,6 +1,5 @@
 // shared config (dev and prod)
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -31,7 +30,6 @@ const optimization = () => {
 
 const plugins = () => {
   const base = [
-    new CleanWebpackPlugin(),
     new WebpackBar(),
     new Dotenv({ systemvars: true }),
     new HtmlWebpackPlugin({
@@ -48,6 +46,7 @@ const plugins = () => {
       eslint: true,
       eslintOptions: {
         cache: true,
+        cacheLocation: `${paths.appCache}/.eslintcache`,
       },
     }),
   ];

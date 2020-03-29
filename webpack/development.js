@@ -1,11 +1,11 @@
 // development config
 const merge = require('webpack-merge');
-const commonConfig = require('./webpack.config.base');
+const base = require('./base');
 const paths = require('./paths');
 
 const PORT = 3000;
 
-module.exports = merge(commonConfig, {
+module.exports = merge(base, {
   mode: 'development',
   entry: [
     'react-hot-loader/patch', // activate HMR for React
