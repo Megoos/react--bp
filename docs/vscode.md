@@ -24,3 +24,13 @@
 - Конфигурация `attach` прикрепляет отладчик к работающему экземпляру Chrome. Однако для работы этой опции нужно запустить Chrome с включенной удаленной отладкой.
 
 Подробнее в документации: https://github.com/Microsoft/vscode-chrome-debug
+
+## Extensions
+
+- `Debugger for Chrome` - отладка в Chrome
+- `EditorConfig` - определение правил редактора из файла .editorconfig
+- `ESLint` - интеграция ESLint и VS Code
+- `Prettier` - code formatter
+- `GitLens` - интеграция git и VS Code
+
+and other...
