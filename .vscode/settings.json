@@ -6,12 +6,8 @@
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.tslint": true,
-    "source.fixAll.eslint": true
-  },
-  "files.associations": {
-    "[Dd]ockerfile*": "dockerfile",
-    ".stylelintrc": "json"
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
   },
   "javascript.preferences.importModuleSpecifier": "auto",
   "typescript.preferences.importModuleSpecifier": "auto",
