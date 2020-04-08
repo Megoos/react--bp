@@ -4,6 +4,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require('dotenv-webpack');
 const autoprefixer = require('autoprefixer');
 const WebpackBar = require('webpackbar');
@@ -12,6 +13,7 @@ const paths = require('./paths');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
+const isAnalyze = process.env.ANALYZE === 'true';
 
 const optimization = () => {
   const config = {
@@ -50,6 +52,10 @@ const plugins = () => {
       },
     }),
   ];
+
+  if (isAnalyze) {
+    base.push(new BundleAnalyzerPlugin());
+  }
 
   if (isDev) {
     const dev = [
@@ -122,9 +128,6 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     modules: ['node_modules'],
-    alias: {
-      'react-dom': '@hot-loader/react-dom',
-    },
   },
   module: {
     rules: [

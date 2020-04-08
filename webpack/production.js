@@ -1,4 +1,5 @@
 const merge = require('webpack-merge');
+
 const base = require('./base');
 const paths = require('./paths');
 

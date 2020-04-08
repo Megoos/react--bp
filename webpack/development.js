@@ -7,6 +7,11 @@ const PORT = 3000;
 
 module.exports = merge(base, {
   mode: 'development',
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
+  },
   entry: [
     'react-hot-loader/patch', // activate HMR for React
     `webpack-dev-server/client?http://localhost:${PORT}`, // bundle the client for webpack-dev-server and connect to the provided endpoint
