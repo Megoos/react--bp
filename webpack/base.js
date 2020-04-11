@@ -1,12 +1,14 @@
 // shared config (dev and prod)
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require('dotenv-webpack');
-const autoprefixer = require('autoprefixer');
+const Autoprefixer = require('autoprefixer');
 const WebpackBar = require('webpackbar');
 const webpack = require('webpack');
 const paths = require('./paths');
@@ -24,7 +26,14 @@ const optimization = () => {
   };
 
   if (isProd) {
-    config.minimizer = [new TerserWebpackPlugin()];
+    config.minimizer = [
+      new TerserWebpackPlugin(),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorPluginOptions: {
+          preset: ['default', { minifyFontValues: { removeQuotes: false } }],
+        },
+      }),
+    ];
   }
 
   return config;
@@ -51,6 +60,7 @@ const plugins = () => {
         cacheLocation: `${paths.appCache}/.eslintcache`,
       },
     }),
+    new StyleLintPlugin(),
   ];
 
   if (isAnalyze) {
@@ -100,7 +110,7 @@ const cssLoader = () => {
     {
       loader: 'postcss-loader',
       options: {
-        plugins: [autoprefixer],
+        plugins: [Autoprefixer],
         sourceMap: isDev,
       },
     },
