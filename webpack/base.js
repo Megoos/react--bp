@@ -1,4 +1,5 @@
 // shared config (dev and prod)
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -8,9 +9,10 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require('dotenv-webpack');
-const Autoprefixer = require('autoprefixer');
 const WebpackBar = require('webpackbar');
-const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
+const postcssNormalize = require('postcss-normalize');
+
 const paths = require('./paths');
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -110,7 +112,7 @@ const cssLoader = () => {
     {
       loader: 'postcss-loader',
       options: {
-        plugins: [Autoprefixer],
+        plugins: [autoprefixer, postcssNormalize],
         sourceMap: isDev,
       },
     },
