@@ -8,6 +8,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
 const autoprefixer = require('autoprefixer');
@@ -87,6 +88,13 @@ const plugins = () => {
         filename: `css/[name].[contenthash:8].css`,
         chunkFilename: `css/chunk/[id].[contenthash:8].css`,
         ignoreOrder: true, // Enable to remove warnings about conflicting order
+      }),
+      new WorkboxPlugin.GenerateSW({
+        // these options encourage the ServiceWorkers to get in there fast
+        // and not allow any straggling "old" SWs to hang around
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
       }),
     ];
 
