@@ -96,15 +96,25 @@ const plugins = () => {
         clientsClaim: true,
         skipWaiting: true,
         cleanupOutdatedCaches: true,
-        exclude: [/.*/],
+        exclude: [/\.(?:map|txt)$/, /icons\//, /asset-manifest\.json$/, 'index.html', '.DS_Store'],
         runtimeCaching: [
           {
-            urlPattern: /.*/,
+            urlPattern: /\.(?:png|jpg|jpeg|svg|webp|gif)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+              expiration: {
+                maxEntries: 40,
+              },
+            },
+          },
+          {
+            urlPattern: /\/$/,
             handler: 'NetworkFirst',
             options: {
-              cacheName: 'offlineCache',
+              cacheName: 'root',
               expiration: {
-                maxEntries: 200,
+                maxEntries: 1,
               },
             },
           },
