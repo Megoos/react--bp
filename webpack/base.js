@@ -91,10 +91,8 @@ const plugins = () => {
       }),
       new CopyWebpackPlugin([{ from: paths.appPublic, to: paths.appBuild }]),
       new WorkboxPlugin.GenerateSW({
-        // these options encourage the ServiceWorkers to get in there fast
-        // and not allow any straggling "old" SWs to hang around
-        clientsClaim: true,
-        skipWaiting: true,
+        clientsClaim: true, // these options encourage the ServiceWorkers to get in there fast
+        skipWaiting: true, // and not allow any straggling "old" SWs to hang around
         cleanupOutdatedCaches: true,
         exclude: [/\.(?:map|txt)$/, /icons\//, /asset-manifest\.json$/, 'index.html', '.DS_Store'],
         runtimeCaching: [
