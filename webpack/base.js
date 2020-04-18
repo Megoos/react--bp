@@ -8,6 +8,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
@@ -49,6 +50,7 @@ const plugins = () => {
     new Dotenv({ systemvars: true }),
     new HtmlWebpackPlugin({
       template: paths.appHtml,
+      favicon: `${paths.appPublic}/favicon.ico`,
       cache: true,
       minify: true,
     }),
@@ -64,6 +66,7 @@ const plugins = () => {
       },
     }),
     new StyleLintPlugin(),
+    new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg|webp)$/i, cacheFolder: `${paths.appCache}/imagemin` }),
   ];
 
   if (isAnalyze) {
@@ -184,14 +187,30 @@ module.exports = {
         use: [...cssLoader(), 'thread-loader'],
       },
       {
-        test: /\.(png|jpe?g|svg|gif)$/i,
+        test: /\.(png|jpe?g|gif|webp)$/i,
         exclude: /node_modules/,
         use: [
           {
             loader: 'file-loader',
             options: {
+              name() {
+                if (isDev) {
+                  return '[name].[ext]';
+                }
+
+                return '[name].[contenthash:8].[ext]';
+              },
               outputPath: 'images',
             },
+          },
+          'thread-loader',
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
           },
           'thread-loader',
         ],
