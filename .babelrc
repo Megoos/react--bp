@@ -1,8 +1,13 @@
 {
   "presets": [
-    ["@babel/env", { "modules": false, "loose": true, "useBuiltIns": "usage", "corejs": "3.6.4" }],
+    ["@babel/env", { "modules": false, "loose": true, "useBuiltIns": "usage", "corejs": "3" }],
     "@babel/react",
     "@babel/typescript"
   ],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": ["react-hot-loader/babel"],
+  "env": {
+    "test": {
+      "presets": [["@babel/env", { "modules": "commonjs" }]]
+    }
+  }
 }

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App header render 1`] = `
+<DocumentFragment>
+  <div>
+    header
+  </div>
+</DocumentFragment>
+`;
