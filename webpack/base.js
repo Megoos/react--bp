@@ -97,7 +97,7 @@ const plugins = () => {
         clientsClaim: true, // these options encourage the ServiceWorkers to get in there fast
         skipWaiting: true, // and not allow any straggling "old" SWs to hang around
         cleanupOutdatedCaches: true,
-        exclude: [/\.(?:map|txt)$/, /icons\//, /asset-manifest\.json$/, 'index.html', '.DS_Store'],
+        exclude: [/\.(?:map|txt)$/, /icons\//, 'index.html', '.DS_Store'],
         runtimeCaching: [
           {
             urlPattern: /\.(?:png|jpg|jpeg|svg|webp|gif)$/,
@@ -106,16 +106,6 @@ const plugins = () => {
               cacheName: 'images',
               expiration: {
                 maxEntries: 40,
-              },
-            },
-          },
-          {
-            urlPattern: /\/$/,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'root',
-              expiration: {
-                maxEntries: 1,
               },
             },
           },

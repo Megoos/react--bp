@@ -34,3 +34,27 @@
 - `GitLens` - интеграция git и VS Code
 
 and other...
+
+## SW (Workbox)
+
+Exmaple rantime caching option
+
+```
+{
+  urlPattern: /.*/,
+  handler: 'NetworkFirst',
+  method: 'GET',
+  options: {
+    cacheName: 'html',
+    cacheableResponse: {
+      statuses: [200],
+      headers: {
+        'content-type': 'text/html',
+      },
+    },
+    expiration: {
+      maxEntries: 20,
+    },
+  },
+},
+```
