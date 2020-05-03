@@ -13,5 +13,5 @@ module.exports = {
   appSrc: resolveApp('src'), // App source
   appPublic: resolveApp('public'), // Public source
   appTsConfig: resolveApp('tsconfig.json'), // tsconfig
-  appCache: resolveApp('node_modules/.cache'),
+  appCache: resolveApp('node_modules/.cache'), // app cache
 };

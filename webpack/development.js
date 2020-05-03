@@ -1,5 +1,8 @@
 // development config
 const merge = require('webpack-merge');
+const webpack = require('webpack');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+
 const base = require('./base');
 const paths = require('./paths');
 
@@ -24,6 +27,12 @@ module.exports = merge(base, {
     compress: true,
     stats: 'errors-only',
     overlay: true,
+    clientLogLevel: 'error',
   },
   devtool: 'eval-cheap-module-source-map',
+  plugins: [
+    new HardSourceWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(), // enable HMR globally
+    new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
+  ],
 });

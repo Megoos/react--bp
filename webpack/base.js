@@ -1,16 +1,11 @@
 // shared config (dev and prod)
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
-const WorkboxPlugin = require('workbox-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
 const autoprefixer = require('autoprefixer');
@@ -20,7 +15,7 @@ const paths = require('./paths');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
-const isAnalyze = process.env.ANALYZE === 'true';
+const isPro = process.env.NODE_TYPE === 'pro';
 
 const optimization = () => {
   const config = {
@@ -52,68 +47,26 @@ const plugins = () => {
       template: paths.appHtml,
       favicon: `${paths.appPublic}/favicon.ico`,
       cache: true,
-      minify: true,
+      minify: isProd,
     }),
-    new ForkTsCheckerWebpackPlugin({
-      tsconfig: paths.appTsConfig,
-      async: isDev,
-      checkSyntacticErrors: true,
-      useTypescriptIncrementalApi: true,
-      eslint: true,
-      eslintOptions: {
-        cache: true,
-        cacheLocation: `${paths.appCache}/.eslintcache`,
-      },
-    }),
-    new StyleLintPlugin(),
-    new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg|webp)$/i, cacheFolder: `${paths.appCache}/imagemin` }),
   ];
 
-  if (isAnalyze) {
-    base.push(new BundleAnalyzerPlugin());
-  }
-
-  if (isDev) {
-    const dev = [
-      ...base,
-      new HardSourceWebpackPlugin(),
-      new webpack.HotModuleReplacementPlugin(), // enable HMR globally
-      new webpack.NamedModulesPlugin(), // prints more readable module names in the browser console on HMR updates
-    ];
-
-    return dev;
-  }
-
-  if (isProd) {
-    const prod = [
-      ...base,
-      new MiniCssExtractPlugin({
-        filename: `css/[name].[contenthash:8].css`,
-        chunkFilename: `css/chunk/[id].[contenthash:8].css`,
-        ignoreOrder: true, // Enable to remove warnings about conflicting order
+  if (!isPro) {
+    base.push(
+      new ForkTsCheckerWebpackPlugin({
+        tsconfig: paths.appTsConfig,
+        async: isDev,
+        checkSyntacticErrors: true,
+        useTypescriptIncrementalApi: true,
+        eslint: true,
+        eslintOptions: {
+          cache: true,
+          cacheLocation: `${paths.appCache}/.eslintcache`,
+        },
       }),
-      new CopyWebpackPlugin([{ from: paths.appPublic, to: paths.appBuild }]),
-      new WorkboxPlugin.GenerateSW({
-        clientsClaim: true, // these options encourage the ServiceWorkers to get in there fast
-        skipWaiting: true, // and not allow any straggling "old" SWs to hang around
-        cleanupOutdatedCaches: true,
-        exclude: [/\.(?:map|txt)$/, /icons\//, 'index.html', '.DS_Store'],
-        runtimeCaching: [
-          {
-            urlPattern: /\.(?:png|jpg|jpeg|svg|webp|gif)$/,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'images',
-              expiration: {
-                maxEntries: 40,
-              },
-            },
-          },
-        ],
-      }),
-    ];
-
-    return prod;
+      new StyleLintPlugin(),
+      new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg|webp)$/i, cacheFolder: `${paths.appCache}/imagemin` })
+    );
   }
 
   return base;
@@ -121,7 +74,7 @@ const plugins = () => {
 
 const cssLoader = () => {
   const loaders = [
-    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+    isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
       options: {
@@ -208,8 +161,8 @@ module.exports = {
     ],
   },
   plugins: plugins(),
+  optimization: optimization(),
   performance: {
     hints: false,
   },
-  optimization: optimization(),
 };
