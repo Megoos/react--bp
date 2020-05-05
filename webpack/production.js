@@ -3,16 +3,57 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const base = require('./base');
 const paths = require('./paths');
 
 const isAnalyze = process.env.ANALYZE === 'true';
 
+const optimization = () => {
+  const config = {
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: 20,
+      minSize: 20000,
+      cacheGroups: {
+        default: false,
+        vendors: false,
+        framework: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'framework',
+          chunks: 'all',
+          enforce: true,
+          priority: 40,
+        },
+        commons: {
+          name: 'commons',
+          chunks: 'all',
+          minChunks: 1,
+          reuseExistingChunk: true,
+          priority: 30,
+        },
+      },
+    },
+  };
+
+  config.minimizer = [
+    new TerserWebpackPlugin(),
+    new OptimizeCSSAssetsPlugin({
+      cssProcessorPluginOptions: {
+        preset: ['default', { minifyFontValues: { removeQuotes: false } }],
+      },
+    }),
+  ];
+
+  return config;
+};
+
 module.exports = merge(base, {
   mode: 'production',
   entry: {
-    vendor: ['react', 'react-dom'],
     app: paths.appIndexJs,
   },
   output: {
@@ -50,6 +91,7 @@ module.exports = merge(base, {
       analyzerMode: isAnalyze ? 'server' : 'disabled',
     }),
   ],
+  optimization: optimization(),
   // externals: {
   //   react: 'React',
   //   'react-dom': 'ReactDOM'

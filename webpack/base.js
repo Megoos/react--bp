@@ -1,7 +1,5 @@
 // shared config (dev and prod)
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserWebpackPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
@@ -16,28 +14,6 @@ const paths = require('./paths');
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 const isPro = process.env.NODE_TYPE === 'pro';
-
-const optimization = () => {
-  const config = {
-    runtimeChunk: true,
-    splitChunks: {
-      chunks: 'all',
-    },
-  };
-
-  if (isProd) {
-    config.minimizer = [
-      new TerserWebpackPlugin(),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorPluginOptions: {
-          preset: ['default', { minifyFontValues: { removeQuotes: false } }],
-        },
-      }),
-    ];
-  }
-
-  return config;
-};
 
 const plugins = () => {
   const base = [
@@ -161,7 +137,12 @@ module.exports = {
     ],
   },
   plugins: plugins(),
-  optimization: optimization(),
+  optimization: {
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   performance: {
     hints: false,
   },
