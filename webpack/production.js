@@ -16,24 +16,27 @@ const optimization = () => {
     runtimeChunk: true,
     splitChunks: {
       chunks: 'all',
+      minChunks: 2,
       maxInitialRequests: 20,
       minSize: 20000,
       cacheGroups: {
-        default: false,
-        vendors: false,
         framework: {
           test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
           name: 'framework',
           chunks: 'all',
           enforce: true,
-          priority: 40,
+          priority: -10,
         },
-        commons: {
-          name: 'commons',
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
           chunks: 'all',
-          minChunks: 1,
+          enforce: true,
+          priority: -20,
+        },
+        default: {
           reuseExistingChunk: true,
-          priority: 30,
+          priority: -30,
         },
       },
     },

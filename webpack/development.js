@@ -28,6 +28,7 @@ module.exports = merge(base, {
     stats: 'errors-only',
     overlay: true,
     clientLogLevel: 'error',
+    historyApiFallback: true,
   },
   devtool: 'eval-cheap-module-source-map',
   plugins: [
