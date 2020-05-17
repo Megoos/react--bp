@@ -71,7 +71,15 @@ module.exports = merge(base, {
       chunkFilename: `css/chunk/[id].[contenthash:8].css`,
       ignoreOrder: true, // Enable to remove warnings about conflicting order
     }),
-    new CopyWebpackPlugin([{ from: paths.appPublic, to: paths.appBuild }]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: paths.appPublic,
+          to: paths.appBuild,
+          cacheTransform: true,
+        },
+      ],
+    }),
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true, // these options encourage the ServiceWorkers to get in there fast
       skipWaiting: true, // and not allow any straggling "old" SWs to hang around
