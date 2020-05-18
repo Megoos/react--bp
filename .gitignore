@@ -15,7 +15,7 @@ build/
 
 # misc
 .DS_Store
-.cache-loader
+.idea
 
 # testing
 coverage

@@ -1,22 +1,32 @@
-# react--bp
+# React app template
 
-### Full config for react application
+Full config for React application
 
-# Manifest
+- **`yarn`** - Install all dependencies from package.json
+
+- **`yarn dev`** - Run in development mode on localhost:3000
+
+- **`yarn dev:pro`** - Run in development mode on localhost:3000 without linting
+
+- **`yarn build`** - Project build
+
+- **`yarn start`** - Run build on localhost:5000
+
+## Manifest
 
 To generate a manifest use https://app-manifest.firebaseapp.com/
 
-# SW
+## SW
 
 SW options: https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin.GenerateSW
 
 SW recipes: https://gist.github.com/addyosmani/0e1cfeeccad94edc2f0985a15adefe54
 
-# Commit Message Guidelines
+## Commit Message Guidelines
 
 We have very precise rules over how our git commit messages can be formatted. This leads to more readable messages that are easy to follow when looking through the project history.
 
-## Commit Message Format
+### Commit Message Format
 
 Each commit message consists of a type, a scope and a subject:
 
@@ -34,7 +44,7 @@ Samples:
     fix(release): need to depend on latest react
 ```
 
-### Type
+#### Type
 
 Must be one of the following:
 
@@ -48,7 +58,7 @@ Must be one of the following:
 - **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 - **test**: Adding missing tests or correcting existing tests
 
-### Subject
+#### Subject
 
 The subject contains a succinct description of the change:
 
