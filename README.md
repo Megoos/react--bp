@@ -16,7 +16,7 @@ Full config for React application
 
 To generate a manifest use https://app-manifest.firebaseapp.com/
 
-## SW
+## Service Worker (SW)
 
 SW options: https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-webpack-plugin.GenerateSW
 
