@@ -25,6 +25,7 @@ const plugins = () => {
       cache: true,
       minify: isProd,
     }),
+    new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg|webp)$/i, cacheFolder: `${paths.appCache}/imagemin` }),
   ];
 
   if (!isPro) {
@@ -40,8 +41,7 @@ const plugins = () => {
           cacheLocation: `${paths.appCache}/.eslintcache`,
         },
       }),
-      new StyleLintPlugin(),
-      new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg|webp)$/i, cacheFolder: `${paths.appCache}/imagemin` })
+      new StyleLintPlugin()
     );
   }
 

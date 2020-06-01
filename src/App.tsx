@@ -1,5 +1,4 @@
 import React, { lazy, Suspense } from 'react';
-import { hot } from 'react-hot-loader/root';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import MenuIcon from './assets/icons/menu.svg';
@@ -36,4 +35,4 @@ function App() {
   );
 }
 
-export default hot(App);
+export default App;
