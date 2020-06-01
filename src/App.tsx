@@ -10,7 +10,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 const Login = lazy(() => import('./pages/Login/Login'));
 const Settings = lazy(() => import('./pages/Settings/Settings'));
 
-function App() {
+export const App: React.FC = () => {
   return (
     <div>
       <Header />
@@ -33,6 +33,6 @@ function App() {
       </Suspense>
     </div>
   );
-}
+};
 
 export default App;

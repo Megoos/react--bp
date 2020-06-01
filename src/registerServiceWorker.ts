@@ -4,7 +4,7 @@ type Config = {
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
-export const registerServiceWorker = (config?: Config) => {
+export const registerServiceWorker = (config?: Config): void => {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     if (document.readyState === 'complete') {
       registerSW('/service-worker.js', config);
