@@ -31,14 +31,22 @@ const plugins = () => {
   if (!isPro) {
     base.push(
       new ForkTsCheckerWebpackPlugin({
-        tsconfig: paths.appTsConfig,
         async: isDev,
-        checkSyntacticErrors: true,
-        useTypescriptIncrementalApi: true,
-        eslint: true,
-        eslintOptions: {
-          cache: true,
-          cacheLocation: `${paths.appCache}/.eslintcache`,
+        typescript: {
+          mode: 'write-references',
+          configFile: paths.appTsConfig,
+          diagnosticOptions: {
+            semantic: true,
+            syntactic: true,
+          },
+        },
+        eslint: {
+          enabled: true,
+          files: `${paths.appSrc}/**/*.{ts,tsx}`,
+          options: {
+            cache: true,
+            cacheLocation: `${paths.appCache}/.eslintcache`,
+          },
         },
       }),
       new StyleLintPlugin()

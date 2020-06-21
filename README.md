@@ -2,6 +2,8 @@
 
 Full config for React application
 
+You need minimum **Node.js 10**
+
 - **`yarn`** - Install all dependencies from package.json
 
 - **`yarn dev`** - Run in development mode on localhost:3000
