@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
 const autoprefixer = require('autoprefixer');
@@ -25,33 +24,30 @@ const plugins = () => {
       cache: true,
       minify: isProd,
     }),
-    new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg|webp)$/i, cacheFolder: `${paths.appCache}/imagemin` }),
   ];
 
-  if (!isPro) {
-    base.push(
-      new ForkTsCheckerWebpackPlugin({
-        async: isDev,
-        typescript: {
-          mode: 'write-references',
-          configFile: paths.appTsConfig,
-          diagnosticOptions: {
-            semantic: true,
-            syntactic: true,
-          },
+  base.push(
+    new ForkTsCheckerWebpackPlugin({
+      async: isDev,
+      typescript: {
+        mode: 'write-references',
+        configFile: paths.appTsConfig,
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
         },
-        eslint: {
-          enabled: true,
-          files: `${paths.appSrc}/**/*.{ts,tsx}`,
-          options: {
-            cache: true,
-            cacheLocation: `${paths.appCache}/.eslintcache`,
-          },
+      },
+      eslint: {
+        enabled: true,
+        files: `${paths.appSrc}/**/*.{ts,tsx}`,
+        options: {
+          cache: true,
+          cacheLocation: `${paths.appCache}/.eslintcache`,
         },
-      }),
-      new StyleLintPlugin()
-    );
-  }
+      },
+    }),
+    new StyleLintPlugin()
+  );
 
   return base;
 };
@@ -65,14 +61,18 @@ const cssLoader = () => {
         modules: {
           mode: 'local',
           localIdentName: '[name]_[local]__[hash:base64:5]',
+          auto: true,
         },
+        importLoaders: 2,
         sourceMap: isDev,
       },
     },
     {
       loader: 'postcss-loader',
       options: {
-        plugins: [autoprefixer, postcssNormalize],
+        postcssOptions: {
+          plugins: [autoprefixer, postcssNormalize],
+        },
         sourceMap: isDev,
       },
     },
@@ -97,6 +97,7 @@ const jsLoader = () => {
 };
 
 module.exports = {
+  target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     modules: ['node_modules'],
@@ -110,7 +111,7 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/i,
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!(ANOTHER-TWO|ANOTHER-ONE)\/).*/,
         use: [...cssLoader(), 'thread-loader'],
       },
       {

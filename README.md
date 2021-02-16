@@ -2,7 +2,7 @@
 
 Full config for React application
 
-You need minimum **Node.js 10**
+You need minimum **Node.js 14**
 
 - **`yarn`** - Install all dependencies from package.json
 
