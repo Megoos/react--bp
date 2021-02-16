@@ -6,6 +6,7 @@
   "homepage": "https://github.com/Megoos/react--bp",
   "license": "MIT",
   "scripts": {
+    "postinstall": "husky install",
     "dev": "cross-env NODE_ENV=development webpack serve --config webpack/development.js --color --progress",
     "dev:pro": "cross-env NODE_TYPE=pro yarn dev",
     "build": "yarn run clean:build && cross-env NODE_ENV=production webpack --config webpack/production.js --color --progress",
