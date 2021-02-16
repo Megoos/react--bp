@@ -1,10 +1,10 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserWebpackPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 const base = require('./base');
 const paths = require('./paths');
@@ -44,8 +44,9 @@ const optimization = () => {
 
   config.minimizer = [
     new TerserWebpackPlugin(),
-    new OptimizeCSSAssetsPlugin({
-      cssProcessorPluginOptions: {
+    new CssMinimizerPlugin({
+      cache: true,
+      minimizerOptions: {
         preset: ['default', { minifyFontValues: { removeQuotes: false } }],
       },
     }),
@@ -76,7 +77,9 @@ module.exports = merge(base, {
         {
           from: paths.appPublic,
           to: paths.appBuild,
-          cacheTransform: true,
+          transform: {
+            cache: true,
+          },
         },
       ],
     }),
