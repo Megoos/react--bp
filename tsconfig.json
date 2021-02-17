@@ -20,8 +20,8 @@
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "importHelpers": true,
-    "baseUrl": "."
+    "baseUrl": "src"
   },
-  "include": ["typings", "**/*"],
+  "include": ["src", "__tests__", "typings"],
   "exclude": ["node_modules", "build"]
 }

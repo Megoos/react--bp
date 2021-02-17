@@ -9,6 +9,7 @@ module.exports = {
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  moduleDirectories: ['node_modules', 'src'],
   testRegex: '/__tests__/.*\\.test.(ts|tsx)$',
   testEnvironment: 'jest-environment-jsdom-sixteen',
   testPathIgnorePatterns: ['<rootDir>/build/', '<rootDir>/node_modules/'],

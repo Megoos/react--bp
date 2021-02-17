@@ -7,12 +7,12 @@ const Dotenv = require('dotenv-webpack');
 const WebpackBar = require('webpackbar');
 const autoprefixer = require('autoprefixer');
 const postcssNormalize = require('postcss-normalize');
+const path = require('path');
 
 const paths = require('./paths');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
-const isPro = process.env.NODE_TYPE === 'pro';
 
 const plugins = () => {
   const base = [
@@ -100,7 +100,7 @@ module.exports = {
   target: 'web',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    modules: ['node_modules'],
+    modules: ['node_modules', path.resolve('./src')],
   },
   module: {
     rules: [
